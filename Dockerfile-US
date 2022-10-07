@@ -1,4 +1,0 @@
-FROM registry.us-east-1.aliyuncs.com/framely/apps:oracle_graalvm-ce-20.3.0-java11
-WORKDIR /data/
-RUN curl -s http://nipodtools.oss-cn-shanghai.aliyuncs.com/tools/Healthz/healthz_client -o /healthz_client && chmod +x /healthz_client
-COPY spring/build/ /data/build/
