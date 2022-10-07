@@ -1,0 +1,20 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'framely'
+include 'core'
+include 'spring'
+include 'native'
+include 'agents'
+include 'extensions:google'
+include 'extensions:meta'
+include 'extensions:tencent'
+include 'extensions:helloworld'
+include 'private:framely'
+include 'private:chatwoot'
+include 'private:googlesheet'

@@ -1,0 +1,16 @@
+plugins {
+  id "org.jetbrains.kotlin.jvm" version "1.6.21"
+}
+
+allprojects {
+  repositories {
+      mavenLocal()
+      mavenCentral()
+  }
+}
+
+build {
+    dependsOn ':core:build'
+    dependsOn ':extensions:copyFiles'
+    dependsOn ':private:copyFiles'
+}

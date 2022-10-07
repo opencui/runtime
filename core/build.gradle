@@ -1,0 +1,75 @@
+buildscript {
+    ext.kotlin_version = '1.6.10'
+    ext.protobuf_version = '0.8.10'
+    ext.grpc_version = '1.26.0'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id "idea"
+    id "java"
+}
+
+group 'io.framely'
+version '0.1.1-SNAPSHOT'
+sourceCompatibility = '11'
+targetCompatibility = '11'
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "11"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "11"
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    flatDir {
+        dirs './libs'
+    }
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
+    compileOnly "javax.annotation:javax.annotation-api:1.2"
+    compileOnly "org.slf4j:slf4j-api:2.0.3"
+    implementation "org.slf4j:slf4j-simple:2.0.3"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Required for Kotlin integration
+    implementation "org.apache.lucene:lucene-core:8.4.1"
+    implementation "org.apache.lucene:lucene-analyzers-smartcn:8.4.1"
+    implementation "org.apache.lucene:lucene-queryparser:8.4.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "org.jetbrains.kotlin:kotlin-compiler"
+
+    // We need to stick to older version of h2 so that test can be done faster enough.
+    // New h2 requires tcp connection, much slower. That is why we can NOT enforcePlatform
+    // to latest SpringBoot
+    testImplementation "com.h2database:h2:1.4.197"
+    testImplementation "org.jetbrains.kotlin:kotlin-test"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
+}
+
+
+
+
+
+
