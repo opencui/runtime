@@ -1,0 +1,6 @@
+[submodule "core"]
+	path = core
+	url = https://github.com/opencui/core
+[submodule "extensions"]
+	path = extensions
+	url = https://github.com/opencui/extensions
