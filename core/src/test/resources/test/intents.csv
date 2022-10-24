@@ -1,7 +1,0 @@
-id,node_state,@class,current_node
-1,"root","io.opencui.test.InternalNodeIntent","admin"
-2,"root","io.opencui.test.InternalNodeIntent","hr"
-3,"admin","io.opencui.test.Greeting",NULL
-4,"admin","io.opencui.test.Goodbye",NULL
-5,"hr","io.opencui.test.Goodbye",NULL
-6,"hr","io.opencui.test.Greeting",NULL
