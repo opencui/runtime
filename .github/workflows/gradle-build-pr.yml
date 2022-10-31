@@ -1,0 +1,21 @@
+name: Run Gradle On PRs
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  gradle:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: framely/actions-uses-private-repo@v1
+        with:
+          github-token: ${{ secrets.PAT_TOKEN }}
+          repository: framely/actions-framely-init@v1
+          command: |-
+            pwd
+      - uses: ./../actions-framely-init
+        with:
+          github-token:         ${{ secrets.PAT_TOKEN }}
+          feishu-hook-id:       ${{ secrets.FEISHU_HOOK_ID }}
+          command-main: |-
+            if [ -f .ci.sh ]; then bash -xe .ci.sh; fi
+          command-post: echo -n post
