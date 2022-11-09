@@ -14,6 +14,12 @@ docker run -it --rm -p 8501:8501 registry.us-east-1.aliyuncs.com/framely/apps:du
 
 For chatbot developer:
 ```
+// find the working directory:
+git clone https://github.com/opencui/runtime.git
+cd runtime
+git submodule init
+git submodule update
+
 // Extract the exported kotlin project into same directory that hosts core and extensions. 
 mkdir botname
 cd botname
