@@ -9,6 +9,8 @@ git clone https://github.com/opencui/runtime.git
 cd runtime
 git submodule init
 git submodule update
+(cd core && git pull)
+(cd extensions && git pull)
 // Extract the exported kotlin project into same directory that hosts core and extensions. 
 mkdir botname
 cd botname
