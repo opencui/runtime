@@ -1,0 +1,10 @@
+---
+# tasks file for du
+
+- name: docker-compose.yaml
+  template: src=docker-compose.yaml dest={{ BasePath }}/du/{{ DuCluster }}/ mode=0644
+
+- name: docker-compose up -d
+  args:
+    chdir: "{{ BasePath }}/du/{{ DuCluster }}/"
+  shell: docker-compose up -d

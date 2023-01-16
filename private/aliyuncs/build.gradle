@@ -1,0 +1,82 @@
+buildscript {
+    ext.kotlin_version = '1.6.10'
+    ext.spring_boot_version = '2.1.0.RELEASE'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id "org.jetbrains.kotlin.plugin.spring" version "1.6.10"
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10'
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id "idea"
+    id "java"
+}
+
+
+group 'io.framely.stripe'
+version '0.1.1-SNAPSHOT'
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "11"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "11"
+    }
+}
+
+// disable spring boot jar task
+bootJar {
+    enabled(false)
+}
+
+// enable gradle jar task
+jar {
+    enabled(true)
+}
+
+repositories {
+    maven { url 'https://repository.jboss.org/nexus/content/groups/public/' }
+    mavenLocal()
+    mavenCentral()
+    flatDir {
+        dirs './libs'
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    compileOnly "javax.annotation:javax.annotation-api:1.2"
+    implementation 'com.aliyun:aliyun-java-sdk-dysmsapi:2.2.1'
+    implementation 'com.aliyun:aliyun-java-sdk-core:4.6.0'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.43'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.session:spring-session-core'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "org.jetbrains.kotlin:kotlin-compiler"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+    implementation "com.stripe:stripe-java:4.2.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-test"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+}
+
+
+

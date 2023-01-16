@@ -1,0 +1,14 @@
+version: '2.1'
+services:
+  redis:
+    ports:
+      - "{{ RedisPort }}:6379"
+    image: redis:5.0.12
+    restart: always
+    volumes:
+      - ./data:/data/
+    command:
+      - /bin/bash
+      - -c
+      - |
+         cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && exec redis-server --appendonly yes

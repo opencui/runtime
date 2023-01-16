@@ -1,0 +1,23 @@
+{% set Du = groups[DuCluster] | first %}
+{% set DuHost = hostvars[Du]["ansible_default_ipv4"]["address"] %}
+{% set DuPort = hostvars[Du]["DuGrpcPort"] %}
+
+{% set Redis = groups[RedisCluster] | first %}
+{% set RedisHost = hostvars[Redis]["ansible_default_ipv4"]["address"] %}
+{% set RedisPort = hostvars[Redis]["RedisPort"] %}
+
+{% set Duckling = groups[DucklingCluster] | first %}
+{% set DucklingHost = hostvars[Duckling]["ansible_default_ipv4"]["address"] %}
+{% set DucklingPort = hostvars[Duckling]["DucklingHttpPort"] %}
+
+version: '2.1'
+services:
+  dispatcher:
+    image: {{ DispatcherImage }}
+    restart: always
+    volumes:
+      - {{ RepoPath }}:/data/
+    ports:
+      - "{{ DispatcherHttpPort }}:8080"
+    working_dir: /data/
+    command: bash -c "exec java -Dthin.root=private/build/thin/root/ -Ddu.host={{ DuHost }} -Ddu.port={{ DuPort }} -Ddu.duckling=http://{{ DucklingHost }}:{{ DucklingPort }}/parse -Dsession.host={{ RedisHost }} -Dsession.port={{ RedisPort }} -jar agents/build/libs/*-01.jar"

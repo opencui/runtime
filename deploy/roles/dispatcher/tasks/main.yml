@@ -1,0 +1,10 @@
+---
+# tasks file for dispatcher
+
+- name: docker-compose.yaml
+  template: src=docker-compose.yaml dest={{ BasePath }}/dispatcher/{{ DispatcherCluster }}/ mode=0644
+
+- name: docker-compose up -d
+  args:
+    chdir: "{{ BasePath }}/dispatcher/{{ DispatcherCluster }}/"
+  shell: docker-compose stop; docker-compose up -d

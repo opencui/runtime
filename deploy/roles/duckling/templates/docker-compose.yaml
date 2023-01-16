@@ -1,0 +1,7 @@
+version: '2.1'
+services:
+  duckling:
+    image: {{ DucklingImage }}
+    restart: always
+    ports:
+      - "{{ DucklingHttpPort }}:8000"

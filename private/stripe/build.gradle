@@ -1,0 +1,88 @@
+buildscript {
+    ext.kotlin_version = '1.6.10'
+    ext.spring_boot_version = '2.1.0.RELEASE'
+    ext.boot_version = '2.7.6'
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id "org.jetbrains.kotlin.plugin.spring" version "1.6.10"
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10'
+    id "idea"
+    id 'java-library'
+    id "maven-publish"
+}
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "11"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "11"
+    }
+}
+
+repositories {
+    maven { url 'https://repository.jboss.org/nexus/content/groups/public/' }
+    mavenLocal()
+    mavenCentral()
+    flatDir {
+        dirs './libs'
+    }
+}
+
+dependencies {
+    implementation('io.opencui:core')
+    compileOnly "javax.annotation:javax.annotation-api:1.2"
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    implementation "org.springframework.boot:spring-boot-starter-web:${boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-webflux:${boot_version}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "org.jetbrains.kotlin:kotlin-compiler"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+    implementation "com.stripe:stripe-java:4.2.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-test"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+}
+
+group 'io.framely'
+version '1.0-SNAPSHOT'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            def releasesRepoUrl = "$buildDir/repos/releases"
+            def snapshotsRepoUrl = "$buildDir/repos/snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+

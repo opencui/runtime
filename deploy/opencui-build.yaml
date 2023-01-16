@@ -1,0 +1,28 @@
+---
+- name: build jar
+  vars:
+    BasePath: build
+    CodePath: code
+    CachePath: cache/gradle
+  hosts: localhost
+  tasks:
+    - name: check docker
+      shell: docker -v
+    - name: build
+      shell: |-
+        docker run -i --rm -v $(cd ../ && pwd)/:/data/ -v /tmp/gradle/cache/:/home/gradle/.gradle/ gradle:7.3.1-jdk11 bash -x << EOF
+        cd /data/
+        export COMMITID=$(git rev-parse HEAD)
+        export M2=deploy/m2/$(git rev-parse HEAD)/
+        export OrgName={{ OrgName }}
+        export AgentName={{ AgentName }}
+
+        if [ "{{ OrgName }}" == "" ] || [ "{{ AgentName }}" == "" ]; then
+            echo OrgName or AgentName value is empty
+            exit 1
+        fi
+        
+        bash scripts/build-runtime-thin-resolve-local.sh > deploy/log/build-runtime/$(git rev-parse HEAD)-$(date +"%Y%m%d-%H%M%S-build.log") 2>&1
+        EOF
+      register: result
+    - debug: var=result

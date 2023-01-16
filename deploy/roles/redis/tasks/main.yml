@@ -1,0 +1,11 @@
+---
+# tasks file for redis
+
+- name: docker-compose.yaml
+  template: src=docker-compose.yaml dest={{ BasePath }}/redis/{{ RedisCluster }}/ mode=0644
+  register: result
+
+- name: docker-compose up -d
+  args:
+    chdir: "{{ BasePath }}/redis/{{ RedisCluster }}/"
+  shell: docker-compose up -d

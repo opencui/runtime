@@ -1,0 +1,10 @@
+---
+# tasks file for duckling
+
+- name: docker-compose.yaml
+  template: src=docker-compose.yaml dest={{ BasePath }}/duckling/{{ DucklingCluster }}/ mode=0644
+
+- name: docker-compose up -d
+  args:
+    chdir: "{{ BasePath }}/duckling/{{ DucklingCluster }}/"
+  shell: docker-compose up -d

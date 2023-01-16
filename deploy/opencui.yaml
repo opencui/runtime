@@ -1,0 +1,32 @@
+---
+- hosts: all
+  tasks:
+    - name: check docker
+      shell: docker -v
+    - name: check docker-compose
+      shell: docker-compose -v
+  any_errors_fatal: true
+
+- hosts: "{{ RedisCluster }}"
+  tags:
+    - redis
+  roles:
+    - redis
+
+- hosts: "{{ DuCluster }}"
+  tags:
+    - du
+  roles:
+    - du
+
+- hosts: "{{ DucklingCluster }}"
+  tags:
+    - duckling
+  roles:
+    - duckling
+
+- hosts: "{{ DispatcherCluster }}"
+  tags:
+    - dispatcher
+  roles:
+    - dispatcher

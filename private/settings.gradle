@@ -1,0 +1,18 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven { url 'https://repo.spring.io/release' }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+includeBuild("../core")
+includeBuild("../extensions")
+
+rootProject.name = 'deploy'
+
+include 'framely'
+include 'chatwoot'
+include 'googlesheet'
+include 'native'
